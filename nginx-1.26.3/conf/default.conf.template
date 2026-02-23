@@ -2,19 +2,6 @@ server {
     listen       ${PORT};
     server_name  localhost;
 
-    # Custom log formats
-    log_format  tracker  '[$time_local] IP=$remote_addr '
-                         'REQUEST="$request" STATUS=$status '
-                         'BYTES=$body_bytes_sent '
-                         'REFERER="$http_referer" '
-                         'USER_AGENT="$http_user_agent" '
-                         'FORWARDED_FOR="$http_x_forwarded_for"';
-
-    log_format  ip_only  '$remote_addr - [$time_local] "$request" $status';
-
-    access_log  /var/log/nginx/access.log  tracker;
-    access_log  /var/log/nginx/visitor_ips.log  ip_only;
-
     # Serve the 404 page as the main page
     root   /usr/share/nginx/html;
     index  index.html;
