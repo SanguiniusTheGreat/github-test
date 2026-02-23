@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en" data-color-mode="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found · GitHub</title>
+  <meta name="description" content="GitHub 404 - This is not the web page you are looking for.">
+  <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg" type="image/svg+xml">
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      background: #0d1117;
+      color: #f0f6fc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ===== GitHub Header ===== */
+    .gh-header {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      z-index: 100;
+    }
+
+    .gh-logo svg { fill: #f0f6fc; }
+    .gh-logo:hover svg { fill: #ffffffb3; }
+
+    .gh-search {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 5px 12px;
+      color: #f0f6fc;
+      font-size: 14px;
+      width: 272px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .gh-search::placeholder { color: #484f58; }
+    .gh-search:focus { border-color: #58a6ff; box-shadow: 0 0 0 3px rgba(56,139,253,0.4); }
+
+    .gh-search-hint {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #484f58;
+      font-size: 12px;
+      padding: 1px 6px;
+      pointer-events: none;
+    }
+
+    .gh-search-wrapper {
+      position: relative;
+    }
+
+    .gh-nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+
+    .gh-nav a {
+      color: #f0f6fc;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .gh-nav a:hover { color: #ffffffb3; text-decoration: none; }
+
+    .gh-nav-sep {
+      width: 1px;
+      height: 24px;
+      background: #30363d;
+    }
+
+    .gh-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #30363d;
+      border: 1px solid #484f58;
+    }
+
+    .gh-notification {
+      position: relative;
+    }
+    .gh-notification svg { fill: #f0f6fc; }
+
+    /* ===== Main 404 Scene ===== */
+    .scene-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+      perspective: 1000px;
+    }
+
+    /* Starfield Background */
+    .starfield {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle var(--duration) ease-in-out infinite alternate;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.2; }
+      100% { opacity: 1; }
+    }
+
+    /* Parallax Layers */
+    .parallax-layer {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: transform 0.1s ease-out;
+      will-change: transform;
+    }
+
+    /* Background mountains/hills */
+    .layer-bg {
+      z-index: 1;
+      width: 120%;
+    }
+
+    /* Mid buildings */
+    .layer-mid {
+      z-index: 2;
+      width: 110%;
+    }
+
+    /* Foreground */
+    .layer-fg {
+      z-index: 3;
+      width: 105%;
+    }
+
+    /* Character layer */
+    .layer-char {
+      z-index: 4;
+    }
+
+    /* 404 Text */
+    .error-text {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .error-code {
+      font-size: 128px;
+      font-weight: 800;
+      line-height: 1;
+      color: #f0f6fc;
+      text-shadow: 0 0 60px rgba(88,166,255,0.3);
+      letter-spacing: -4px;
+      margin-bottom: 8px;
+    }
+
+    .error-message {
+      font-size: 20px;
+      color: #8b949e;
+      font-weight: 400;
+    }
+
+    /* Parallax Scene SVGs */
+    .scene-art {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* ===== City / Scene SVG Layers ===== */
+    .sky-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #0d1117 0%, #161b22 40%, #1a1f2b 70%, #21262d 100%);
+      z-index: 0;
+    }
+
+    .ground-plane {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40%;
+      z-index: 5;
+    }
+
+    /* SVG Scene Styling */
+    .buildings-back { fill: #161b22; }
+    .buildings-mid { fill: #0d1117; }
+    .buildings-front { fill: #090c10; }
+    .window { fill: #1f6feb; opacity: 0.6; }
+    .window-warm { fill: #f0883e; opacity: 0.5; }
+    .ground-fill { fill: #0d1117; }
+
+    /* Character */
+    .character-container {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 8;
+      transition: transform 0.1s ease-out;
+    }
+
+    /* Lightsaber glow */
+    .saber-glow {
+      animation: saberPulse 2s ease-in-out infinite alternate;
+    }
+    @keyframes saberPulse {
+      0% { opacity: 0.7; filter: blur(3px); }
+      100% { opacity: 1; filter: blur(6px); }
+    }
+
+    /* ===== Footer ===== */
+    .gh-footer {
+      background: #0d1117;
+      border-top: 1px solid #21262d;
+      padding: 40px 32px;
+      z-index: 100;
+      position: relative;
+    }
+
+    .gh-footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .gh-footer-logo svg { fill: #30363d; }
+
+    .gh-footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .gh-footer-links a {
+      color: #58a6ff;
+      font-size: 12px;
+    }
+
+    .gh-footer-copy {
+      color: #484f58;
+      font-size: 12px;
+    }
+
+    /* ===== Admin Panel (Hidden) ===== */
+    .admin-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+    .admin-overlay.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .admin-panel {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 900px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .admin-panel h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: #f0f6fc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .admin-panel .subtitle {
+      color: #484f58;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    .admin-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: #8b949e;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .admin-close:hover { background: #21262d; color: #f0f6fc; }
+
+    .admin-panel table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .admin-panel th {
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid #30363d;
+      color: #8b949e;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-panel td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #21262d;
+      color: #c9d1d9;
+    }
+
+    .admin-panel tr:hover td {
+      background: #0d1117;
+    }
+
+    .admin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 6px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .admin-btn:hover {
+      background: #30363d;
+      border-color: #484f58;
+    }
+    .admin-btn.primary {
+      background: #238636;
+      border-color: rgba(240,246,252,0.1);
+      color: #fff;
+    }
+    .admin-btn.primary:hover {
+      background: #2ea043;
+    }
+    .admin-btn.danger {
+      background: #da3633;
+      border-color: rgba(240,246,252,0.1);
+      color: #fff;
+    }
+    .admin-btn.danger:hover {
+      background: #f85149;
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-success { background: rgba(35,134,54,0.2); color: #3fb950; }
+    .badge-info { background: rgba(31,111,235,0.2); color: #58a6ff; }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #484f58;
+    }
+    .empty-state svg { margin-bottom: 12px; opacity: 0.5; }
+
+    .map-link {
+      color: #58a6ff;
+      font-size: 12px;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .gh-header { padding: 12px 16px; }
+      .gh-search { width: 180px; }
+      .gh-nav a:not(:last-child) { display: none; }
+      .error-code { font-size: 80px; }
+      .error-message { font-size: 16px; }
+      .gh-footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== GitHub Header ===== -->
+  <header class="gh-header">
+    <a href="#" class="gh-logo" aria-label="GitHub">
+      <svg height="32" viewBox="0 0 16 16" width="32">
+        <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+      </svg>
+    </a>
+
+    <div class="gh-search-wrapper">
+      <input type="text" class="gh-search" placeholder="Search or jump to..." aria-label="Search">
+      <span class="gh-search-hint">/</span>
+    </div>
+
+    <nav class="gh-nav">
+      <a href="#">Pull requests</a>
+      <a href="#">Issues</a>
+      <a href="#">Codespaces</a>
+      <a href="#">Marketplace</a>
+      <a href="#">Explore</a>
+      <div class="gh-nav-sep"></div>
+      <a href="#" class="gh-notification" aria-label="Notifications">
+        <svg height="16" viewBox="0 0 16 16" width="16">
+          <path d="M8 16a2 2 0 0 0 1.985-1.75c.017-.137-.097-.25-.235-.25h-3.5c-.138 0-.252.113-.235.25A2 2 0 0 0 8 16ZM3 5a5 5 0 0 1 10 0v2.947c0 .05.015.098.042.139l1.703 2.555A1.519 1.519 0 0 1 13.482 13H2.518a1.516 1.516 0 0 1-1.263-2.36l1.703-2.554A.255.255 0 0 0 3 7.947Zm5-3.5A3.5 3.5 0 0 0 4.5 5v2.947c0 .346-.102.683-.294.97l-1.703 2.556a.017.017 0 0 0-.003.01l.001.006c0 .002.002.004.004.006l.006.004.007.001h10.964l.007-.001.006-.004.004-.006.001-.007a.017.017 0 0 0-.003-.01l-1.703-2.554a1.745 1.745 0 0 1-.294-.97V5A3.5 3.5 0 0 0 8 1.5Z"></path>
+        </svg>
+      </a>
+      <div class="gh-avatar"></div>
+    </nav>
+  </header>
+
+  <!-- ===== 404 Scene ===== -->
+  <main class="scene-container" id="scene">
+    <!-- Sky Gradient -->
+    <div class="sky-gradient"></div>
+
+    <!-- Starfield -->
+    <div class="starfield" id="starfield"></div>
+
+    <!-- 404 Text -->
+    <div class="error-text">
+      <div class="error-code">404</div>
+      <p class="error-message">"This is not the web page you are looking for"</p>
+    </div>
+
+    <!-- Parallax Layer: Background Buildings -->
+    <svg class="parallax-layer layer-bg" id="layer-bg" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- Far background buildings -->
+      <rect class="buildings-back" x="0" y="200" width="1600" height="200"/>
+      <rect class="buildings-back" x="50" y="160" width="80" height="240"/>
+      <rect class="buildings-back" x="160" y="140" width="60" height="260"/>
+      <rect class="buildings-back" x="250" y="170" width="90" height="230"/>
+      <rect class="buildings-back" x="380" y="120" width="70" height="280"/>
+      <rect class="buildings-back" x="480" y="150" width="100" height="250"/>
+      <rect class="buildings-back" x="620" y="100" width="80" height="300"/>
+      <rect class="buildings-back" x="730" y="130" width="60" height="270"/>
+      <rect class="buildings-back" x="830" y="110" width="90" height="290"/>
+      <rect class="buildings-back" x="960" y="155" width="75" height="245"/>
+      <rect class="buildings-back" x="1070" y="125" width="85" height="275"/>
+      <rect class="buildings-back" x="1190" y="145" width="70" height="255"/>
+      <rect class="buildings-back" x="1300" y="165" width="95" height="235"/>
+      <rect class="buildings-back" x="1430" y="135" width="80" height="265"/>
+      <rect class="buildings-back" x="1530" y="175" width="70" height="225"/>
+      <!-- Windows on back buildings -->
+      <rect class="window" x="65" y="175" width="4" height="6" rx="1"/>
+      <rect class="window" x="80" y="185" width="4" height="6" rx="1"/>
+      <rect class="window" x="105" y="175" width="4" height="6" rx="1"/>
+      <rect class="window-warm" x="175" y="160" width="4" height="6" rx="1"/>
+      <rect class="window" x="185" y="175" width="4" height="6" rx="1"/>
+      <rect class="window-warm" x="400" y="140" width="4" height="6" rx="1"/>
+      <rect class="window" x="410" y="155" width="4" height="6" rx="1"/>
+      <rect class="window" x="635" y="120" width="4" height="6" rx="1"/>
+      <rect class="window-warm" x="650" y="135" width="4" height="6" rx="1"/>
+      <rect class="window" x="665" y="115" width="4" height="6" rx="1"/>
+      <rect class="window" x="845" y="130" width="4" height="6" rx="1"/>
+      <rect class="window-warm" x="860" y="140" width="4" height="6" rx="1"/>
+      <rect class="window" x="875" y="125" width="4" height="6" rx="1"/>
+      <rect class="window" x="1085" y="145" width="4" height="6" rx="1"/>
+      <rect class="window-warm" x="1100" y="155" width="4" height="6" rx="1"/>
+      <rect class="window" x="1315" y="180" width="4" height="6" rx="1"/>
+      <rect class="window" x="1445" y="150" width="4" height="6" rx="1"/>
+    </svg>
+
+    <!-- Parallax Layer: Mid Buildings -->
+    <svg class="parallax-layer layer-mid" id="layer-mid" viewBox="0 0 1600 350" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <rect class="buildings-mid" x="0" y="220" width="1600" height="130"/>
+      <rect class="buildings-mid" x="20" y="160" width="100" height="190"/>
+      <rect class="buildings-mid" x="150" y="130" width="70" height="220"/>
+      <rect class="buildings-mid" x="250" y="100" width="55" height="250"/>
+      <!-- Antenna -->
+      <rect class="buildings-mid" x="273" y="70" width="6" height="30"/>
+      <rect class="buildings-mid" x="340" y="150" width="110" height="200"/>
+      <rect class="buildings-mid" x="500" y="80" width="80" height="270"/>
+      <!-- Antenna -->
+      <rect class="buildings-mid" x="536" y="50" width="5" height="30"/>
+      <rect class="buildings-mid" x="620" y="120" width="65" height="230"/>
+      <rect class="buildings-mid" x="720" y="90" width="90" height="260"/>
+      <rect class="buildings-mid" x="850" y="140" width="75" height="210"/>
+      <rect class="buildings-mid" x="960" y="110" width="60" height="240"/>
+      <!-- Antenna -->
+      <rect class="buildings-mid" x="985" y="80" width="5" height="30"/>
+      <rect class="buildings-mid" x="1060" y="130" width="95" height="220"/>
+      <rect class="buildings-mid" x="1200" y="105" width="70" height="245"/>
+      <rect class="buildings-mid" x="1310" y="85" width="55" height="265"/>
+      <!-- Antenna -->
+      <rect class="buildings-mid" x="1333" y="55" width="5" height="30"/>
+      <rect class="buildings-mid" x="1400" y="140" width="100" height="210"/>
+      <rect class="buildings-mid" x="1530" y="120" width="70" height="230"/>
+      <!-- Mid building windows -->
+      <rect class="window" x="40" y="175" width="5" height="8" rx="1"/>
+      <rect class="window-warm" x="60" y="185" width="5" height="8" rx="1"/>
+      <rect class="window" x="80" y="175" width="5" height="8" rx="1"/>
+      <rect class="window" x="40" y="200" width="5" height="8" rx="1"/>
+      <rect class="window-warm" x="60" y="195" width="5" height="8" rx="1"/>
+      <rect class="window" x="165" y="145" width="5" height="8" rx="1"/>
+      <rect class="window-warm" x="180" y="155" width="5" height="8" rx="1"/>
+      <rect class="window" x="195" y="145" width="5" height="8" rx="1"/>
+      <rect class="window" x="260" y="115" width="5" height="8" rx="1"/>
+      <rect class="window-warm" x="275" y="125" width="5" height="8" rx="1"/>
+      <rect class="window" x="290" y="115" width="5" height="8" rx="1"/>
+      <rect class="window" x="360" y="165" width="5" height="8" rx="1"/>
+      <rect class="window-warm" x="385" y="170" width="5" height="8" rx="1"/>
+      <rect class="window" x="410" y="165" width="5" height="8" rx="1"/>
+      <rect class="window" x="515" y="100" width="5" height="8" rx="1"/>
+      <rect class="window-warm" x="535" y="95" width="5" height="8" rx="1"/>
+      <rect class="window" x="555" y="105" width="5" height="8" rx="1"/>
+      <rect class="window" x="735" y="105" width="5" height="8" rx="1"/>
+      <rect class="window-warm" x="760" y="115" width="5" height="8" rx="1"/>
+      <rect class="window" x="785" y="105" width="5" height="8" rx="1"/>
+      <rect class="window" x="975" y="125" width="5" height="8" rx="1"/>
+      <rect class="window" x="1080" y="145" width="5" height="8" rx="1"/>
+      <rect class="window-warm" x="1105" y="150" width="5" height="8" rx="1"/>
+      <rect class="window" x="1130" y="145" width="5" height="8" rx="1"/>
+      <rect class="window" x="1215" y="120" width="5" height="8" rx="1"/>
+      <rect class="window-warm" x="1240" y="125" width="5" height="8" rx="1"/>
+      <rect class="window" x="1325" y="100" width="5" height="8" rx="1"/>
+      <rect class="window" x="1420" y="155" width="5" height="8" rx="1"/>
+      <rect class="window-warm" x="1450" y="160" width="5" height="8" rx="1"/>
+      <rect class="window" x="1475" y="155" width="5" height="8" rx="1"/>
+      <rect class="window" x="1545" y="135" width="5" height="8" rx="1"/>
+    </svg>
+
+    <!-- Parallax Layer: Foreground -->
+    <svg class="parallax-layer layer-fg" id="layer-fg" viewBox="0 0 1600 250" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <rect class="buildings-front" x="0" y="200" width="1600" height="50"/>
+      <rect class="buildings-front" x="0" y="120" width="130" height="130"/>
+      <rect class="buildings-front" x="160" y="90" width="80" height="160"/>
+      <rect class="buildings-front" x="300" y="140" width="120" height="110"/>
+      <rect class="buildings-front" x="1100" y="100" width="100" height="150"/>
+      <rect class="buildings-front" x="1240" y="130" width="130" height="120"/>
+      <rect class="buildings-front" x="1420" y="80" width="90" height="170"/>
+      <rect class="buildings-front" x="1540" y="110" width="60" height="140"/>
+      <!-- Foreground windows -->
+      <rect class="window" x="15" y="135" width="6" height="10" rx="1"/>
+      <rect class="window-warm" x="35" y="140" width="6" height="10" rx="1"/>
+      <rect class="window" x="55" y="135" width="6" height="10" rx="1"/>
+      <rect class="window" x="80" y="145" width="6" height="10" rx="1"/>
+      <rect class="window-warm" x="100" y="140" width="6" height="10" rx="1"/>
+      <rect class="window" x="175" y="105" width="6" height="10" rx="1"/>
+      <rect class="window-warm" x="200" y="110" width="6" height="10" rx="1"/>
+      <rect class="window" x="220" y="105" width="6" height="10" rx="1"/>
+      <rect class="window" x="315" y="155" width="6" height="10" rx="1"/>
+      <rect class="window-warm" x="340" y="158" width="6" height="10" rx="1"/>
+      <rect class="window" x="380" y="155" width="6" height="10" rx="1"/>
+      <rect class="window" x="1115" y="120" width="6" height="10" rx="1"/>
+      <rect class="window-warm" x="1140" y="115" width="6" height="10" rx="1"/>
+      <rect class="window" x="1165" y="120" width="6" height="10" rx="1"/>
+      <rect class="window" x="1260" y="145" width="6" height="10" rx="1"/>
+      <rect class="window-warm" x="1290" y="150" width="6" height="10" rx="1"/>
+      <rect class="window" x="1320" y="145" width="6" height="10" rx="1"/>
+      <rect class="window" x="1345" y="150" width="6" height="10" rx="1"/>
+      <rect class="window" x="1435" y="100" width="6" height="10" rx="1"/>
+      <rect class="window-warm" x="1460" y="95" width="6" height="10" rx="1"/>
+      <rect class="window" x="1480" y="100" width="6" height="10" rx="1"/>
+    </svg>
+
+    <!-- Character: Octocat with Lightsaber -->
+    <div class="character-container" id="layer-char">
+      <svg width="200" height="260" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+        <!-- Lightsaber glow -->
+        <ellipse class="saber-glow" cx="145" cy="80" rx="30" ry="80" fill="rgba(88,166,255,0.1)"/>
+        
+        <!-- Lightsaber blade -->
+        <rect x="142" y="10" width="6" height="110" rx="3" fill="#58a6ff" opacity="0.9"/>
+        <rect x="143" y="10" width="4" height="110" rx="2" fill="#a5d6ff" opacity="0.7"/>
+        <rect x="144" y="12" width="2" height="106" rx="1" fill="#ffffff" opacity="0.5"/>
+        
+        <!-- Lightsaber handle -->
+        <rect x="139" y="120" width="12" height="24" rx="2" fill="#484f58"/>
+        <rect x="141" y="122" width="8" height="4" rx="1" fill="#6e7681"/>
+        <rect x="141" y="130" width="8" height="4" rx="1" fill="#6e7681"/>
+        <rect x="141" y="138" width="8" height="4" rx="1" fill="#6e7681"/>
+        
+        <!-- Robe / Body -->
+        <path d="M70 180 L60 255 L140 255 L130 180 Z" fill="#21262d"/>
+        <path d="M75 180 L68 255 L100 255 L95 180 Z" fill="#30363d"/>
+        
+        <!-- Head -->
+        <ellipse cx="100" cy="170" rx="35" ry="32" fill="#f0f6fc"/>
+        
+        <!-- Ears (cat ears) -->
+        <polygon points="72,145 65,120 85,140" fill="#f0f6fc"/>
+        <polygon points="128,145 135,120 115,140" fill="#f0f6fc"/>
+        <polygon points="74,143 70,126 83,140" fill="#ffb3c6" opacity="0.5"/>
+        <polygon points="126,143 130,126 117,140" fill="#ffb3c6" opacity="0.5"/>
+        
+        <!-- Eyes -->
+        <ellipse cx="88" cy="168" rx="6" ry="7" fill="#0d1117"/>
+        <ellipse cx="112" cy="168" rx="6" ry="7" fill="#0d1117"/>
+        <ellipse cx="90" cy="166" rx="2" ry="2.5" fill="#fff"/>
+        <ellipse cx="114" cy="166" rx="2" ry="2.5" fill="#fff"/>
+        
+        <!-- Nose -->
+        <ellipse cx="100" cy="175" rx="3" ry="2" fill="#ffb3c6"/>
+        
+        <!-- Mouth -->
+        <path d="M96 178 Q100 182 104 178" stroke="#484f58" stroke-width="1.5" fill="none"/>
+        
+        <!-- Whiskers -->
+        <line x1="60" y1="170" x2="82" y2="173" stroke="#484f58" stroke-width="0.8"/>
+        <line x1="58" y1="176" x2="82" y2="177" stroke="#484f58" stroke-width="0.8"/>
+        <line x1="118" y1="173" x2="140" y2="170" stroke="#484f58" stroke-width="0.8"/>
+        <line x1="118" y1="177" x2="142" y2="176" stroke="#484f58" stroke-width="0.8"/>
+        
+        <!-- Tentacle arms -->
+        <path d="M70 190 Q50 200 40 185 Q35 175 42 170" stroke="#f0f6fc" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <path d="M130 190 Q140 180 145 145" stroke="#f0f6fc" stroke-width="8" fill="none" stroke-linecap="round"/>
+        
+        <!-- Lower tentacles -->
+        <path d="M80 245 Q65 260 55 255" stroke="#f0f6fc" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M90 250 Q85 265 75 260" stroke="#f0f6fc" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M110 250 Q115 265 125 260" stroke="#f0f6fc" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M120 245 Q135 260 145 255" stroke="#f0f6fc" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+        <!-- Hood -->
+        <path d="M65 155 Q60 130 75 118 Q100 105 125 118 Q140 130 135 155" fill="none" stroke="#30363d" stroke-width="3"/>
+        <path d="M68 152 Q63 133 77 122 Q100 110 123 122 Q137 133 132 152" fill="#21262d" opacity="0.6"/>
+      </svg>
+    </div>
+
+    <!-- Ground -->
+    <svg class="ground-plane" viewBox="0 0 1600 200" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <rect class="ground-fill" x="0" y="0" width="1600" height="200"/>
+      <!-- Ground details -->
+      <line x1="0" y1="2" x2="1600" y2="2" stroke="#161b22" stroke-width="2"/>
+      <line x1="200" y1="10" x2="350" y2="10" stroke="#161b22" stroke-width="1" opacity="0.5"/>
+      <line x1="600" y1="15" x2="700" y2="15" stroke="#161b22" stroke-width="1" opacity="0.3"/>
+      <line x1="900" y1="8" x2="1050" y2="8" stroke="#161b22" stroke-width="1" opacity="0.4"/>
+      <line x1="1300" y1="12" x2="1400" y2="12" stroke="#161b22" stroke-width="1" opacity="0.3"/>
+    </svg>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="gh-footer">
+    <div class="gh-footer-inner">
+      <a href="#" class="gh-footer-logo" aria-label="GitHub">
+        <svg height="24" viewBox="0 0 16 16" width="24">
+          <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+        </svg>
+      </a>
+      <span class="gh-footer-copy">&copy; 2025 GitHub, Inc.</span>
+      <nav class="gh-footer-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Security</a>
+        <a href="#">Status</a>
+        <a href="#">Docs</a>
+        <a href="#">Contact</a>
+        <a href="#">Manage cookies</a>
+        <a href="#">Do not share my personal information</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- ===== Admin Panel (Hidden) ===== -->
+  <div class="admin-overlay" id="adminOverlay">
+    <div class="admin-panel" style="position: relative;">
+      <button class="admin-close" id="adminClose" aria-label="Close">&times;</button>
+      <h2>
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="#58a6ff"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.399l-.451.003.082-.381 1.958-.332.297-.043ZM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>
+        Location Tracker — Admin Panel
+      </h2>
+      <p class="subtitle">Tracked visitor locations are stored locally. Press <kbd style="background:#21262d;padding:2px 6px;border-radius:4px;border:1px solid #30363d;font-size:11px;">Ctrl+Shift+L</kbd> to toggle this panel.</p>
+      
+      <div id="trackerContent">
+        <div class="empty-state">
+          <svg width="40" height="40" viewBox="0 0 16 16" fill="#30363d">
+            <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16ZM4.146 5.146a.5.5 0 0 0 .708.708L8 2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-3.5-3.5a.5.5 0 0 0-.708 0l-3.5 3.5Z"/>
+          </svg>
+          <p>No visits tracked yet.</p>
+        </div>
+      </div>
+
+      <div class="admin-actions">
+        <button class="admin-btn primary" id="exportBtn">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14ZM7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.969a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.78a.749.749 0 1 1 1.06-1.06l1.97 1.969Z"/></svg>
+          Export JSON
+        </button>
+        <button class="admin-btn danger" id="clearBtn">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M11 1.75V3h2.25a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75ZM4.496 6.675l.66 6.6a.25.25 0 0 0 .249.225h5.19a.25.25 0 0 0 .249-.225l.66-6.6a.75.75 0 0 1 1.492.149l-.66 6.6A1.748 1.748 0 0 1 10.595 15h-5.19a1.75 1.75 0 0 1-1.741-1.575l-.66-6.6a.75.75 0 1 1 1.492-.15ZM6.5 1.75V3h3V1.75a.25.25 0 0 0-.25-.25h-2.5a.25.25 0 0 0-.25.25Z"/></svg>
+          Clear All
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Starfield Generation =====
+    (function generateStars() {
+      const starfield = document.getElementById('starfield');
+      const count = 150;
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 2.5 + 0.5;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 70 + '%';
+        star.style.setProperty('--duration', (Math.random() * 3 + 1) + 's');
+        star.style.animationDelay = (Math.random() * 3) + 's';
+        starfield.appendChild(star);
+      }
+    })();
+
+    // ===== Parallax Mouse Tracking =====
+    (function setupParallax() {
+      const scene = document.getElementById('scene');
+      const layerBg = document.getElementById('layer-bg');
+      const layerMid = document.getElementById('layer-mid');
+      const layerFg = document.getElementById('layer-fg');
+      const layerChar = document.getElementById('layer-char');
+
+      const speeds = {
+        bg: 0.01,
+        mid: 0.025,
+        fg: 0.04,
+        char: 0.05
+      };
+
+      scene.addEventListener('mousemove', (e) => {
+        const rect = scene.getBoundingClientRect();
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const mouseX = e.clientX - rect.left - centerX;
+        const mouseY = e.clientY - rect.top - centerY;
+
+        layerBg.style.transform = `translateX(calc(-50% + ${mouseX * speeds.bg}px)) translateY(${mouseY * speeds.bg * 0.5}px)`;
+        layerMid.style.transform = `translateX(calc(-50% + ${mouseX * speeds.mid}px)) translateY(${mouseY * speeds.mid * 0.5}px)`;
+        layerFg.style.transform = `translateX(calc(-50% + ${mouseX * speeds.fg}px)) translateY(${mouseY * speeds.fg * 0.5}px)`;
+        layerChar.style.transform = `translateX(calc(-50% + ${mouseX * speeds.char}px)) translateY(${mouseY * speeds.char * 0.3}px)`;
+      });
+
+      scene.addEventListener('mouseleave', () => {
+        layerBg.style.transform = 'translateX(-50%)';
+        layerMid.style.transform = 'translateX(-50%)';
+        layerFg.style.transform = 'translateX(-50%)';
+        layerChar.style.transform = 'translateX(-50%)';
+      });
+    })();
+
+    // ===== Location Tracking =====
+    (function trackLocation() {
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          const visit = {
+            timestamp: new Date().toISOString(),
+            ip: data.ip || 'Unknown',
+            city: data.city || 'Unknown',
+            region: data.region || 'Unknown',
+            country: data.country_name || 'Unknown',
+            countryCode: data.country_code || '--',
+            latitude: data.latitude || null,
+            longitude: data.longitude || null,
+            timezone: data.timezone || 'Unknown',
+            isp: data.org || 'Unknown',
+            userAgent: navigator.userAgent
+          };
+
+          const visits = JSON.parse(localStorage.getItem('tracked_visits') || '[]');
+          visits.push(visit);
+          localStorage.setItem('tracked_visits', JSON.stringify(visits));
+        })
+        .catch(() => {
+          // Silently fail — try alternative API
+          fetch('https://ip-api.com/json/?fields=status,message,country,countryCode,region,regionName,city,lat,lon,timezone,isp,org,query')
+            .then(res => res.json())
+            .then(data => {
+              if (data.status === 'success') {
+                const visit = {
+                  timestamp: new Date().toISOString(),
+                  ip: data.query || 'Unknown',
+                  city: data.city || 'Unknown',
+                  region: data.regionName || 'Unknown',
+                  country: data.country || 'Unknown',
+                  countryCode: data.countryCode || '--',
+                  latitude: data.lat || null,
+                  longitude: data.lon || null,
+                  timezone: data.timezone || 'Unknown',
+                  isp: data.isp || data.org || 'Unknown',
+                  userAgent: navigator.userAgent
+                };
+
+                const visits = JSON.parse(localStorage.getItem('tracked_visits') || '[]');
+                visits.push(visit);
+                localStorage.setItem('tracked_visits', JSON.stringify(visits));
+              }
+            })
+            .catch(() => {}); // Silent fail
+        });
+    })();
+
+    // ===== Admin Panel =====
+    (function setupAdmin() {
+      const overlay = document.getElementById('adminOverlay');
+      const closeBtn = document.getElementById('adminClose');
+      const exportBtn = document.getElementById('exportBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const content = document.getElementById('trackerContent');
+
+      function renderVisits() {
+        const visits = JSON.parse(localStorage.getItem('tracked_visits') || '[]');
+        
+        if (visits.length === 0) {
+          content.innerHTML = `
+            <div class="empty-state">
+              <svg width="40" height="40" viewBox="0 0 16 16" fill="#30363d">
+                <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm1-8.577V4a1 1 0 1 0-2 0v4a1 1 0 0 0 .517.876l2 1.143a1 1 0 1 0 .966-1.752l-1.483-.844Z"/>
+              </svg>
+              <p>No visits tracked yet. Visits will appear here once a user loads the page.</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = `
+          <div style="margin-bottom:12px;color:#8b949e;font-size:13px;">
+            <span class="badge badge-info">${visits.length}</span> total visit${visits.length !== 1 ? 's' : ''} tracked
+          </div>
+          <div style="overflow-x:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Time</th>
+                  <th>IP</th>
+                  <th>Location</th>
+                  <th>Country</th>
+                  <th>Coords</th>
+                  <th>ISP</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        visits.reverse().forEach((v, i) => {
+          const time = new Date(v.timestamp);
+          const timeStr = time.toLocaleDateString() + ' ' + time.toLocaleTimeString();
+          const coordsStr = v.latitude && v.longitude 
+            ? `${v.latitude.toFixed(4)}, ${v.longitude.toFixed(4)}`
+            : 'N/A';
+          const mapLink = v.latitude && v.longitude
+            ? `<a class="map-link" href="https://www.google.com/maps?q=${v.latitude},${v.longitude}" target="_blank" rel="noopener">📍 Map</a>`
+            : '';
+
+          html += `
+            <tr>
+              <td>${visits.length - i}</td>
+              <td style="white-space:nowrap;">${timeStr}</td>
+              <td><code style="background:#21262d;padding:2px 6px;border-radius:4px;font-size:12px;">${v.ip}</code></td>
+              <td>${v.city}, ${v.region}</td>
+              <td><span class="badge badge-success">${v.countryCode}</span> ${v.country}</td>
+              <td style="white-space:nowrap;">${coordsStr} ${mapLink}</td>
+              <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${v.isp}">${v.isp}</td>
+            </tr>
+          `;
+        });
+
+        html += '</tbody></table></div>';
+        content.innerHTML = html;
+      }
+
+      // Toggle panel with Ctrl+Shift+L
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.key === 'L') {
+          e.preventDefault();
+          overlay.classList.toggle('active');
+          if (overlay.classList.contains('active')) {
+            renderVisits();
+          }
+        }
+      });
+
+      // Close button
+      closeBtn.addEventListener('click', () => {
+        overlay.classList.remove('active');
+      });
+
+      // Close on overlay click
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+        }
+      });
+
+      // Export JSON
+      exportBtn.addEventListener('click', () => {
+        const visits = localStorage.getItem('tracked_visits') || '[]';
+        const blob = new Blob([visits], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `tracked-visits-${new Date().toISOString().slice(0,10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      // Clear all
+      clearBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to clear all tracked visits?')) {
+          localStorage.removeItem('tracked_visits');
+          renderVisits();
+        }
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) {
+          overlay.classList.remove('active');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
